@@ -1,4 +1,4 @@
-import { add, dec, inc } from '../src';
+import { add, dec, inc } from '../src/calc';
 
 describe('add', () => {
   it('should return 3', () => {
