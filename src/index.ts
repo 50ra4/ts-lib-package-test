@@ -1,1 +1,2 @@
-export * from './calc';
+import * as calc from './calc';
+export { calc };
