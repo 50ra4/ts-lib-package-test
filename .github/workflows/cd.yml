@@ -43,6 +43,7 @@ jobs:
           HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
           RELEASE_BRANCH_VERSION=$(echo "$HEAD_REF" | awk -F "/" '{ print $2 }')
+          echo "RELEASE_BRANCH_VERSION: $RELEASE_BRANCH_VERSION"
           node scripts/check-package-version.js
         
   # This workflow contains a single job called "Test"
