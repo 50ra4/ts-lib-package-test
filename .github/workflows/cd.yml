@@ -39,6 +39,8 @@ jobs:
       
       # Check Package version
       - name: Check Package version
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
           RELEASE_BRANCH_VERSION=$(echo "$HEAD_REF" | awk -F "/" '{ print $2 }')
           node scripts/check-package-version.js
