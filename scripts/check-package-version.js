@@ -1,10 +1,7 @@
-/* eslint-disable complexity */
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 const fs = require("fs");
 
-const branchVersion = process.env.RELEASE_BRANCH_VERSION;
+const branchVersion = process.argv[2];
 
 const main = () => {
   try {
