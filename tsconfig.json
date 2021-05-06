@@ -12,5 +12,5 @@
     "noUncheckedIndexedAccess": true
   },
   "include": ["./src", "./test", "./scripts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./scripts/*.js"]
 }
