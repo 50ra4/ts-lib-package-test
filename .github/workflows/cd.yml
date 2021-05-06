@@ -166,7 +166,7 @@ jobs:
         run: |
           npm install
 
-      # Check build
+      # build
       - name: check build
         run: |
           npm run build
@@ -177,45 +177,45 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # FIXME: 
-  # # This workflow contains a single job called "publish_npm_package"
-  # publish_npm_package:
-  #   name: Publish npm package
-  #   needs: [preparation, test, release]
-  #   # The type of runner that the job will run on
-  #   runs-on: ubuntu-latest
-  #   if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v')
+  # This workflow contains a single job called "publish_npm_package"
+  publish_npm_package:
+    name: Publish npm package
+    needs: [preparation, test, release]
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v')
 
-  #   # node version
-  #   strategy:
-  #     matrix:
-  #       node-version: ["14.16"]
+    # node version
+    strategy:
+      matrix:
+        node-version: ["14.16"]
 
-  #   # Steps represent a sequence of tasks that will be executed as part of the job
-  #   steps:
-  #     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v2
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-  #     # Setup node
-  #     - name: Use Node.js ${{ matrix.node-version }}
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: ${{ matrix.node-version }}
-  #         registry-url: 'https://registry.npmjs.org'
+      # Setup node
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
 
-  #     # Install npm packages
-  #     - name: Install npm package
-  #       run: |
-  #         npm install
+      # Install npm packages
+      - name: Install npm package
+        run: |
+          npm install
 
-  #     # Check build
-  #     - name: check build
-  #       run: |
-  #         npm run build
+      # Check build
+      - name: check build
+        run: |
+          npm run build
 
-  #     # npmに公開する
-  #     - name: Publish to npm
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  #       run: |
-  #         npm publish --access public
+      # npmに公開する
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm publish --access public
