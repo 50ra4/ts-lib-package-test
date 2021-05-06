@@ -185,14 +185,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      # GitHub パッケージに公開する .npmrc ファイルを設定する
-      - uses: actions/setup-node@v2
+        
+      # Setup node
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          registry-url: 'https://npm.pkg.github.com'
-          # デフォルトはワークフローファイルを所有するユーザまたは Organization
-          scope: '@50ra4'
+          registry-url: 'https://registry.npmjs.org'
 
       # Install npm packages
       - name: Install npm package
@@ -204,21 +203,22 @@ jobs:
         run: |
           npm run build
 
-      # GitHub パッケージに公開する
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Setup node
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-
       # npmに公開する
       - name: Publish to npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm publish --access public
+
+      # GitHub パッケージに公開する .npmrc ファイルを設定する
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://npm.pkg.github.com'
+          # デフォルトはワークフローファイルを所有するユーザまたは Organization
+          scope: '@50ra4'
+
+      # GitHub パッケージに公開する
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
